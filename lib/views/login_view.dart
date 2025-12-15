@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
 import 'package:tinread_rfid_scanner/utils/responsive.dart';
 import 'package:tinread_rfid_scanner/utils/style.dart';
 import 'package:tinread_rfid_scanner/widgets/custom_checkbox.dart';
@@ -83,29 +84,25 @@ class _LoginViewState extends State<LoginView> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "Autentificare",
-                        // AppLocalizations.of(context).signIn,
+                        AppLocalizations.of(context).signIn,
                         style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 26),
                       ),
                       SizedBox(height: 36),
 
                       Text(
-                        "Utilizator",
-                        // AppLocalizations.of(context).username,
+                        AppLocalizations.of(context).username,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       SizedBox(height: 6),
                       UsernameField(
                         controller: usernameFieldController,
-                        // hintText: AppLocalizations.of(context).usernameInputHint,
-                        hintText: "ionpopescu86",
+                        hintText: AppLocalizations.of(context).usernameInputHint,
                       ),
 
                       SizedBox(height: 12),
 
                       Text(
-                        // AppLocalizations.of(context).password,
-                        "Parolă",
+                        AppLocalizations.of(context).password,
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       SizedBox(height: 6),
@@ -120,7 +117,7 @@ class _LoginViewState extends State<LoginView> {
                       SizedBox(height: 6),
                       ServerField(
                         controller: serverFieldController,
-                        hintText: "https://example.com/",
+                        hintText: "https://example.com",
                       ),
 
                       SizedBox(height: 24),
@@ -136,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
                             },
                           ),
                           Text(
-                            "Ține-mă minte",
+                            AppLocalizations.of(context).rememberMe,
                             style: Theme.of(context).textTheme.headlineSmall!.copyWith(height: 0.9),
                           ),
                         ],
@@ -152,8 +149,7 @@ class _LoginViewState extends State<LoginView> {
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                           ),
                           child: Text(
-                            // AppLocalizations.of(context).signIn,
-                            "Autentificare",
+                            AppLocalizations.of(context).signIn,
                             style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
                           ),
                         ),

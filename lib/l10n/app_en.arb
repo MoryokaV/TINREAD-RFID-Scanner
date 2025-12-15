@@ -1,0 +1,11 @@
+{
+  "@@locale": "en",
+  "signIn": "Sign In",
+  "username": "Username",
+  "usernameInputHint": "e.g. johnpeter86",
+  "password": "Password",
+  "rememberMe": "Remember me",
+  "@rememberMe": {
+    "description": "Remember me checkbox label - Login View"
+  }
+}

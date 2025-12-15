@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
 import 'package:tinread_rfid_scanner/utils/navigation_util.dart';
 import 'package:tinread_rfid_scanner/utils/responsive.dart';
 import 'package:tinread_rfid_scanner/utils/router.dart';
@@ -22,8 +23,8 @@ class MyApp extends StatelessWidget {
       initialRoute: Routes.login,
       navigatorKey: NavigationUtil.navigatorKey,
       onGenerateRoute: PageRouter.generateRoute,
-      // localizationsDelegates: AppLocalizations.localizationsDelegates,
-      // supportedLocales: AppLocalizations.supportedLocales,
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
       // locale: Locale("en"), // for testing purposes only
       localeResolutionCallback: (locale, supportedLocales) {
         if (locale == null) {
