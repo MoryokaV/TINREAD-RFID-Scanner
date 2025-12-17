@@ -22,4 +22,24 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rememberMe => 'Remember me';
+
+  @override
+  String get errorDialogHeading => 'Error';
+
+  @override
+  String get errorDialogContent =>
+      'Oops! The server encountered a problem. Please try again later.';
+
+  @override
+  String get unauthDialogHeading => 'Sign in';
+
+  @override
+  String get unauthDialogContent =>
+      'Sorry, your username or password is incorrect. Please try again.';
+
+  @override
+  String get home => 'Home';
+
+  @override
+  String get settings => 'Settings';
 }

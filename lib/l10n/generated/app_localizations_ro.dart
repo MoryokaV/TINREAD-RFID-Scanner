@@ -22,4 +22,24 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get rememberMe => 'Ține-mă minte';
+
+  @override
+  String get errorDialogHeading => 'Eroare';
+
+  @override
+  String get errorDialogContent =>
+      'Auch! Serverul a întâmpinat o problemă. Reîncearcă mai târziu.';
+
+  @override
+  String get unauthDialogHeading => 'Autentificare';
+
+  @override
+  String get unauthDialogContent =>
+      'Ne pare rău, utilizatorul sau parola sunt incorecte. Vă rugăm să încercați din nou.';
+
+  @override
+  String get home => 'Acasă';
+
+  @override
+  String get settings => 'Setări';
 }

@@ -2,19 +2,20 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:tinread_rfid_scanner/views/login_view.dart';
+import 'package:tinread_rfid_scanner/widgets/bottom_navbar.dart';
 
 class Routes {
   Routes._();
 
-  static const home = '/home';
   static const login = "/login";
+  static const home = '/home';
 }
 
 class PageRouter {
   static Route<dynamic>? generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case Routes.home:
-        return adaptivePageRoute(builder: (context) => const Scaffold());
+        return adaptivePageRoute(builder: (context) => const BottomNavbar());
       case Routes.login:
         return adaptivePageRoute(builder: (context) => LoginView());
       default:

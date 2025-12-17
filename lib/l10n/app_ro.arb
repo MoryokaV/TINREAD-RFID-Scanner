@@ -4,5 +4,11 @@
   "username": "Utilizator",
   "usernameInputHint": "ex: ionpopescu86",
   "password": "Parolă",
-  "rememberMe": "Ține-mă minte"
+  "rememberMe": "Ține-mă minte",
+  "errorDialogHeading": "Eroare",
+  "errorDialogContent": "Auch! Serverul a întâmpinat o problemă. Reîncearcă mai târziu.",
+  "unauthDialogHeading": "Autentificare",
+  "unauthDialogContent": "Ne pare rău, utilizatorul sau parola sunt incorecte. Vă rugăm să încercați din nou.",
+  "home": "Acasă",
+  "settings": "Setări"
 }

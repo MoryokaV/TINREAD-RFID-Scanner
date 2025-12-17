@@ -4,6 +4,12 @@ String apiUrl = "https://demo.tinread.ro";
 String imageUrl = "$apiUrl/covers.svc?h=190&t=m&w=135&rid=";
 String getCoverUrl(String baseUrl, int id) => "$baseUrl/covers.svc?h=190&t=m&w=135&rid=${id.toString()}";
 
+bool isValidURL(String value) {
+  final Uri? uri = Uri.tryParse(value);
+
+  return uri != null && !uri.hasAbsolutePath && (uri.scheme == 'http' || uri.scheme == 'https');
+}
+
 void openBrowserURL(Uri url) async {
   if (await canLaunchUrl(url)) {
     launchUrl(url, mode: LaunchMode.externalApplication);

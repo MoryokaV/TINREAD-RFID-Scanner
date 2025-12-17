@@ -127,6 +127,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Remember me'**
   String get rememberMe;
+
+  /// No description provided for @errorDialogHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get errorDialogHeading;
+
+  /// No description provided for @errorDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Oops! The server encountered a problem. Please try again later.'**
+  String get errorDialogContent;
+
+  /// No description provided for @unauthDialogHeading.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get unauthDialogHeading;
+
+  /// No description provided for @unauthDialogContent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sorry, your username or password is incorrect. Please try again.'**
+  String get unauthDialogContent;
+
+  /// No description provided for @home.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get home;
+
+  /// No description provided for @settings.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settings;
 }
 
 class _AppLocalizationsDelegate

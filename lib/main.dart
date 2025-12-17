@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'TINREAD RFID Scanner',
-      initialRoute: Routes.login,
+      initialRoute: Routes.home,
       navigatorKey: NavigationUtil.navigatorKey,
       onGenerateRoute: PageRouter.generateRoute,
       localizationsDelegates: AppLocalizations.localizationsDelegates,

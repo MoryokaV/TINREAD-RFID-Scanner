@@ -7,5 +7,11 @@
   "rememberMe": "Remember me",
   "@rememberMe": {
     "description": "Remember me checkbox label - Login View"
-  }
+  },
+  "errorDialogHeading": "Error",
+  "errorDialogContent": "Oops! The server encountered a problem. Please try again later.",
+  "unauthDialogHeading": "Sign in",
+  "unauthDialogContent": "Sorry, your username or password is incorrect. Please try again.",
+  "home": "Home",
+  "settings": "Settings"
 }

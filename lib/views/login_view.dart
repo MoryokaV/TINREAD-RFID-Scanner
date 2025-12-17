@@ -1,9 +1,15 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tinread_rfid_scanner/controllers/user_controller.dart';
 import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
+import 'package:tinread_rfid_scanner/utils/api_exceptions.dart';
 import 'package:tinread_rfid_scanner/utils/responsive.dart';
+import 'package:tinread_rfid_scanner/utils/router.dart';
 import 'package:tinread_rfid_scanner/utils/style.dart';
+import 'package:tinread_rfid_scanner/utils/url_constants.dart';
+import 'package:tinread_rfid_scanner/widgets/alert_dialog.dart';
 import 'package:tinread_rfid_scanner/widgets/custom_checkbox.dart';
 
 class LoginView extends StatefulWidget {
@@ -14,7 +20,9 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  // final UserController userController = UserController();
+  final UserController userController = UserController();
+
+  final _formKey = GlobalKey<FormState>();
 
   final usernameFieldController = TextEditingController();
   final passwordFieldController = TextEditingController();
@@ -23,18 +31,23 @@ class _LoginViewState extends State<LoginView> {
   bool rememberMe = true;
 
   void loginUser() async {
-    // final username = usernameFieldController.text;
-    // final password = passwordFieldController.text;
+    if (_formKey.currentState!.validate()) {
+      final username = usernameFieldController.text;
+      final password = passwordFieldController.text;
+      final serverURL = serverFieldController.text;
 
-    print("login");
-    // try {
-    //   AuthToken authToken = await userController.login(username, password);
+      try {
+        // AuthToken authToken = await userController.login(username, password);
+        await userController.login(username, password, serverURL);
 
-    //   if (mounted) await Provider.of<UserProvider>(context, listen: false).setUser(authToken, rememberMe);
-    //   if (mounted) Navigator.pushNamedAndRemoveUntil(context, Routes.home, (_) => false);
-    // } on ApiException catch (exception) {
-    //   if (mounted) showErrorDialog(context, exception);
-    // }
+        // if (mounted) await Provider.of<UserProvider>(context, listen: false).setUser(authToken, rememberMe);
+        if (mounted) Navigator.pushNamedAndRemoveUntil(context, Routes.home, (_) => false);
+      } on SocketException catch (_) {
+        if (mounted) showInfoDialog(context, "Error", "Invalid TINREAD server.");
+      } on ApiException catch (exception) {
+        if (mounted) showErrorDialog(context, exception);
+      }
+    }
   }
 
   @override
@@ -80,83 +93,88 @@ class _LoginViewState extends State<LoginView> {
                   width: Responsive.screenWidth,
                   padding: EdgeInsets.symmetric(horizontal: 18),
                   decoration: BoxDecoration(color: Colors.white),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        AppLocalizations.of(context).signIn,
-                        style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 26),
-                      ),
-                      SizedBox(height: 36),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          AppLocalizations.of(context).signIn,
+                          style: Theme.of(context).textTheme.headlineLarge!.copyWith(fontSize: 26),
+                        ),
+                        SizedBox(height: 36),
 
-                      Text(
-                        AppLocalizations.of(context).username,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      SizedBox(height: 6),
-                      UsernameField(
-                        controller: usernameFieldController,
-                        hintText: AppLocalizations.of(context).usernameInputHint,
-                      ),
+                        Text(
+                          AppLocalizations.of(context).username,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        SizedBox(height: 6),
+                        UsernameField(
+                          controller: usernameFieldController,
+                          hintText: AppLocalizations.of(context).usernameInputHint,
+                        ),
 
-                      SizedBox(height: 12),
+                        SizedBox(height: 12),
 
-                      Text(
-                        AppLocalizations.of(context).password,
-                        style: Theme.of(context).textTheme.headlineSmall,
-                      ),
-                      SizedBox(height: 6),
-                      PasswordField(
-                        controller: passwordFieldController,
-                        hintText: "•••••••••••",
-                      ),
+                        Text(
+                          AppLocalizations.of(context).password,
+                          style: Theme.of(context).textTheme.headlineSmall,
+                        ),
+                        SizedBox(height: 6),
+                        PasswordField(
+                          controller: passwordFieldController,
+                          hintText: "•••••••••••",
+                        ),
 
-                      SizedBox(height: 12),
+                        SizedBox(height: 12),
 
-                      Text("Server URL", style: Theme.of(context).textTheme.headlineSmall),
-                      SizedBox(height: 6),
-                      ServerField(
-                        controller: serverFieldController,
-                        hintText: "https://example.com",
-                      ),
+                        Text("Server URL", style: Theme.of(context).textTheme.headlineSmall),
+                        SizedBox(height: 6),
+                        ServerField(
+                          controller: serverFieldController,
+                          hintText: "https://example.com",
+                        ),
 
-                      SizedBox(height: 24),
-                      Row(
-                        spacing: 10,
-                        children: [
-                          CustomCheckbox(
-                            value: rememberMe,
-                            onChanged: (bool newValue) {
-                              setState(() {
-                                rememberMe = newValue;
-                              });
-                            },
-                          ),
-                          Text(
-                            AppLocalizations.of(context).rememberMe,
-                            style: Theme.of(context).textTheme.headlineSmall!.copyWith(height: 0.9),
-                          ),
-                        ],
-                      ),
-                      SizedBox(height: Responsive.safeBlockVertical * 4),
-                      SizedBox(
-                        width: double.infinity,
-                        child: ElevatedButton(
-                          onPressed: loginUser,
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                          ),
-                          child: Text(
-                            AppLocalizations.of(context).signIn,
-                            style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                        SizedBox(height: 24),
+                        Row(
+                          spacing: 10,
+                          children: [
+                            CustomCheckbox(
+                              value: rememberMe,
+                              onChanged: (bool newValue) {
+                                setState(() {
+                                  rememberMe = newValue;
+                                });
+                              },
+                            ),
+                            Text(
+                              AppLocalizations.of(context).rememberMe,
+                              style: Theme.of(context).textTheme.headlineSmall!.copyWith(height: 0.9),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: Responsive.safeBlockVertical * 4),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: loginUser,
+                            style: ElevatedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                            ),
+                            child: Text(
+                              AppLocalizations.of(context).signIn,
+                              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: Responsive.safeBlockVertical * 2),
-                      Center(child: Image.asset("assets/images/ime_android12.png", width: Responsive.screenWidth / 3)),
-                    ],
+                        SizedBox(height: Responsive.safeBlockVertical * 2),
+                        Center(
+                          child: Image.asset("assets/images/ime_android12.png", width: Responsive.screenWidth / 3),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -197,26 +215,23 @@ class _UsernameFieldState extends State<UsernameField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return 'This field is required';
+        }
+
+        return null;
+      },
       autocorrect: false,
       focusNode: focusNode,
       controller: widget.controller,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(16),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: kPrimaryColor, width: 1),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: lightGrey, width: 1),
-        ),
-        isDense: true,
+      decoration: buildOutlineInputBorderStyle(
+        prefixIconData: FontAwesomeIcons.solidUser,
         hintText: hintText,
-        prefixIcon: Icon(FontAwesomeIcons.solidUser, size: 20),
-        prefixIconColor: focusNode.hasFocus ? kPrimaryColor : kDisabledIconColor,
+        focusNode: focusNode,
       ),
-      onSubmitted: (_) {},
       onEditingComplete: () {},
     );
   }
@@ -253,21 +268,23 @@ class _PasswordFieldState extends State<PasswordField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.trim().isEmpty) {
+          return 'This field is required';
+        }
+
+        return null;
+      },
       autocorrect: false,
       focusNode: focusNode,
       controller: widget.controller,
       obscureText: _isObscured,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(16),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: kPrimaryColor, width: 1),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: lightGrey, width: 1),
-        ),
+      decoration: buildOutlineInputBorderStyle(
+        focusNode: focusNode,
+        hintText: hintText,
+        prefixIconData: FontAwesomeIcons.lock,
         suffixIcon: IconButton(
           onPressed: () {
             setState(() {
@@ -276,12 +293,7 @@ class _PasswordFieldState extends State<PasswordField> {
           },
           icon: FaIcon(_isObscured ? FontAwesomeIcons.eyeSlash : FontAwesomeIcons.eye),
         ),
-        isDense: true,
-        hintText: hintText,
-        prefixIcon: Icon(FontAwesomeIcons.lock, size: 20),
-        prefixIconColor: focusNode.hasFocus ? kPrimaryColor : kDisabledIconColor,
       ),
-      onSubmitted: (_) {},
       onEditingComplete: () {},
     );
   }
@@ -316,27 +328,61 @@ class _ServerFieldState extends State<ServerField> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    return TextFormField(
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter a URL';
+        }
+
+        if (!isValidURL(value)) {
+          return 'Please enter a valid URL (e.g., https://example.com)';
+        }
+
+        return null;
+      },
       autocorrect: false,
       focusNode: focusNode,
       controller: widget.controller,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.all(16),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: kPrimaryColor, width: 1),
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: lightGrey, width: 1),
-        ),
-        isDense: true,
+      decoration: buildOutlineInputBorderStyle(
+        focusNode: focusNode,
         hintText: hintText,
-        prefixIcon: Icon(FontAwesomeIcons.globe, size: 20),
-        prefixIconColor: focusNode.hasFocus ? kPrimaryColor : kDisabledIconColor,
+        prefixIconData: FontAwesomeIcons.globe,
       ),
-      onSubmitted: (_) {},
       onEditingComplete: () {},
     );
   }
+}
+
+InputDecoration buildOutlineInputBorderStyle({
+  required IconData prefixIconData,
+  required String hintText,
+  required FocusNode focusNode,
+  Widget? suffixIcon,
+}) {
+  return InputDecoration(
+    contentPadding: EdgeInsets.all(16),
+    enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: lightGrey, width: 1),
+    ),
+    border: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: kPrimaryColor, width: 1),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: kDangerIconColor, width: 1),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: BorderSide(color: kDangerIconColor, width: 2),
+    ),
+    errorStyle: TextStyle(color: kDangerTextColor),
+    isDense: true,
+    hintText: hintText,
+    suffixIcon: suffixIcon,
+    prefixIcon: Icon(prefixIconData, size: 20),
+    prefixIconColor: focusNode.hasFocus ? kPrimaryColor : kDisabledIconColor,
+  );
 }
