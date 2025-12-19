@@ -17,5 +17,11 @@
   "inventory": "Inventariere",
   "uploadToTINREAD": "Încarcă în TINREAD",
   "downloadFile": "Descarcă fișier",
-  "reset": "Resetează"
+  "reset": "Resetează",
+  "deviceStatus": "Status disponzitiv",
+  "logout": "Deconectare",
+  "sound": "Sunet",
+  "about": "Despre",
+  "privacyPolicy": "Politica de confidențialitate",
+  "checkForUpdates": "Caută actualizări"
 }

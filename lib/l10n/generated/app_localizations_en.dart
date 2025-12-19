@@ -63,4 +63,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get reset => 'Reset';
+
+  @override
+  String get deviceStatus => 'Device status';
+
+  @override
+  String get logout => 'Log out';
+
+  @override
+  String get sound => 'Sound';
+
+  @override
+  String get about => 'About';
+
+  @override
+  String get privacyPolicy => 'Privacy policy';
+
+  @override
+  String get checkForUpdates => 'Check for updates';
 }

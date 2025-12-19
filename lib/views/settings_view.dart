@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
+import 'package:tinread_rfid_scanner/utils/responsive.dart';
+import 'package:tinread_rfid_scanner/utils/style.dart';
+import 'package:tinread_rfid_scanner/widgets/custom_switch.dart';
 
 class SettingsView extends StatefulWidget {
   const SettingsView({super.key});
@@ -10,6 +16,189 @@ class SettingsView extends StatefulWidget {
 class _SettingsViewState extends State<SettingsView> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold();
+    return SafeArea(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                top: 20,
+                left: Responsive.safeBlockHorizontal * 10,
+                right: Responsive.safeBlockHorizontal * 5,
+                bottom: Responsive.safeBlockVertical * 5,
+              ),
+              child: Row(
+                spacing: 5,
+                mainAxisAlignment: .center,
+                crossAxisAlignment: .start,
+                children: [
+                  SvgPicture.asset(
+                    "assets/icons/bookshelves.svg",
+                    height: Responsive.safeBlockVertical * 16,
+                  ),
+                  Flexible(
+                    child: Column(
+                      crossAxisAlignment: .start,
+                      children: [
+                        Text(
+                          "Andrei Popescu",
+                          style: Theme.of(context).textTheme.headlineMedium,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Biblioteca Județeană \"Panait Istrati\" Brăila",
+                          style: Theme.of(context).textTheme.headlineSmall!.copyWith(color: kDimmedForegroundColor),
+                        ),
+                        SizedBox(height: 15),
+                        InkWell(
+                          onTap: () {},
+                          splashColor: kPrimaryColor.withAlpha(40),
+                          highlightColor: kPrimaryColor.withAlpha(50),
+                          child: Ink(
+                            padding: EdgeInsets.only(bottom: 2),
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: kPrimaryColor,
+                                  width: 1,
+                                ),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: .min,
+                              spacing: 10,
+                              children: [
+                                Text(
+                                  AppLocalizations.of(context).logout,
+                                  style: TextStyle(
+                                    color: kPrimaryColor,
+                                  ),
+                                ),
+                                SvgPicture.asset(
+                                  "assets/icons/logout.svg",
+                                  width: 20,
+                                  colorFilter: ColorFilter.mode(
+                                    kPrimaryColor,
+                                    BlendMode.srcIn,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            MenuTile(
+              title: AppLocalizations.of(context).sound,
+              leading: SizedBox(
+                height: 30,
+                child: CustomSwitch(
+                  enabled: true,
+                  onTap: () {},
+                ),
+              ),
+            ),
+
+            MenuTile(
+              title: AppLocalizations.of(context).checkForUpdates,
+              leading: FaIcon(
+                FontAwesomeIcons.chevronRight,
+                color: kDisabledIconColor,
+                size: 18,
+              ),
+            ),
+            MenuTile(
+              title: AppLocalizations.of(context).privacyPolicy,
+              leading: FaIcon(
+                FontAwesomeIcons.chevronRight,
+                color: kDisabledIconColor,
+                size: 18,
+              ),
+            ),
+            MenuTile(
+              title: "${AppLocalizations.of(context).about} TINREAD RFID Scanner",
+              leading: FaIcon(
+                FontAwesomeIcons.chevronRight,
+                color: kDisabledIconColor,
+                size: 18,
+              ),
+            ),
+            SizedBox(height: 20),
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                //TODO: dynamic build and version
+                "Powered by IME România 2025 © v3.5.3 build 12836",
+                style: Theme.of(context).textTheme.labelSmall,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            SizedBox(height: 40),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class MenuTile extends StatelessWidget {
+  final void Function()? onTap;
+  final String title;
+  final Widget leading;
+
+  const MenuTile({
+    super.key,
+    this.onTap,
+    required this.title,
+    required this.leading,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: Ink(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              padding: EdgeInsets.all(12),
+              child: Row(
+                spacing: 6,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    title,
+                    style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                      color: kForegroundColor,
+                      fontWeight: FontWeight.w400,
+                    ),
+                    textScaler: Responsive.textScalingNone,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(right: 12),
+                    child: leading,
+                  ),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 5),
+              child: Divider(
+                thickness: 1,
+                height: 1,
+                color: lightGrey,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -64,4 +64,22 @@ class AppLocalizationsRo extends AppLocalizations {
 
   @override
   String get reset => 'Resetează';
+
+  @override
+  String get deviceStatus => 'Status disponzitiv';
+
+  @override
+  String get logout => 'Deconectare';
+
+  @override
+  String get sound => 'Sunet';
+
+  @override
+  String get about => 'Despre';
+
+  @override
+  String get privacyPolicy => 'Politica de confidențialitate';
+
+  @override
+  String get checkForUpdates => 'Caută actualizări';
 }

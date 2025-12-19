@@ -29,5 +29,11 @@
   "inventory": "Inventory",
   "uploadToTINREAD": "Upload to TINREAD",
   "downloadFile": "Download file",
-  "reset": "Reset"
+  "reset": "Reset",
+  "deviceStatus": "Device status",
+  "logout": "Log out",
+  "sound": "Sound",
+  "about": "About",
+  "privacyPolicy": "Privacy policy",
+  "checkForUpdates": "Check for updates"
 }

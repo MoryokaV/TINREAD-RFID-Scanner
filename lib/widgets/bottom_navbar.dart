@@ -21,6 +21,17 @@ class _BottomNavbarState extends State<BottomNavbar> {
 
   AppBar? getAppBar(BuildContext context) {
     switch (pageIndex) {
+      case 1:
+        return AppBar(
+          elevation: 0,
+          centerTitle: true,
+          backgroundColor: kBackgroundColor,
+          iconTheme: IconTheme.of(context).copyWith(color: kForegroundColor),
+          title: Text(
+            AppLocalizations.of(context).settings,
+            style: Theme.of(context).textTheme.headlineLarge,
+          ),
+        );
       default:
         return null;
     }

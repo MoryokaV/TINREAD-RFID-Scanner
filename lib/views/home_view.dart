@@ -107,7 +107,7 @@ class _HomeViewState extends State<HomeView> {
                       style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white),
                       children: [
                         TextSpan(
-                          text: "Status dispozitiv: ",
+                          text: "${AppLocalizations.of(context).deviceStatus}: ",
                         ),
                         TextSpan(
                           text: "online",
