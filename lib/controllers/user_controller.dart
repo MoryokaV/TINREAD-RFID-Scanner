@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:tinread_rfid_scanner/models/user_model.dart';
 import 'package:tinread_rfid_scanner/utils/api_exceptions.dart';
 
 class UserController {
-  Future<void> login(String username, String password, String serverURL) async {
+  Future<void> login(User user) async {
     try {
       final response = await http.post(
-        Uri.parse("$serverURL/itemService.svc?auth&username=$username&password=$password"),
+        Uri.parse("${user.serverURL}/itemService.svc?auth&username=${user.username}&password=${user.password}"),
       );
 
       if (response.statusCode == 200) {

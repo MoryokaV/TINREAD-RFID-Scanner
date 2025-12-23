@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
+import 'package:tinread_rfid_scanner/models/user_model.dart';
+import 'package:tinread_rfid_scanner/providers/user_provider.dart';
 import 'package:tinread_rfid_scanner/utils/responsive.dart';
+import 'package:tinread_rfid_scanner/utils/router.dart';
 import 'package:tinread_rfid_scanner/utils/style.dart';
 import 'package:tinread_rfid_scanner/widgets/custom_switch.dart';
 
@@ -14,6 +18,23 @@ class SettingsView extends StatefulWidget {
 }
 
 class _SettingsViewState extends State<SettingsView> {
+  User? user;
+  late UserProvider userProvider;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    userProvider = Provider.of<UserProvider>(context, listen: true);
+    user = userProvider.currentUser;
+  }
+
+  void _logoutUser() async {
+    await userProvider.logout();
+
+    if (mounted) Navigator.pushNamedAndRemoveUntil(context, Routes.login, (_) => false);
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -51,7 +72,7 @@ class _SettingsViewState extends State<SettingsView> {
                         ),
                         SizedBox(height: 15),
                         InkWell(
-                          onTap: () {},
+                          onTap: _logoutUser,
                           splashColor: kPrimaryColor.withAlpha(40),
                           highlightColor: kPrimaryColor.withAlpha(50),
                           child: Ink(

@@ -2,8 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tinread_rfid_scanner/controllers/user_controller.dart';
 import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
+import 'package:tinread_rfid_scanner/models/user_model.dart';
+import 'package:tinread_rfid_scanner/providers/user_provider.dart';
 import 'package:tinread_rfid_scanner/utils/api_exceptions.dart';
 import 'package:tinread_rfid_scanner/utils/responsive.dart';
 import 'package:tinread_rfid_scanner/utils/router.dart';
@@ -37,10 +40,15 @@ class _LoginViewState extends State<LoginView> {
       final serverURL = serverFieldController.text;
 
       try {
-        // AuthToken authToken = await userController.login(username, password);
-        await userController.login(username, password, serverURL);
+        User user = User(
+          username: username,
+          password: password,
+          serverURL: serverURL,
+        );
 
-        // if (mounted) await Provider.of<UserProvider>(context, listen: false).setUser(authToken, rememberMe);
+        await userController.login(user);
+
+        if (mounted) await Provider.of<UserProvider>(context, listen: false).setUser(user, rememberMe);
         if (mounted) Navigator.pushNamedAndRemoveUntil(context, Routes.home, (_) => false);
       } on SocketException catch (_) {
         if (mounted) {
