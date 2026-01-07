@@ -3,6 +3,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
 import 'package:tinread_rfid_scanner/utils/responsive.dart';
 import 'package:tinread_rfid_scanner/utils/style.dart';
+import 'package:tinread_rfid_scanner/widgets/separator_widget.dart';
 
 class InventoryView extends StatefulWidget {
   const InventoryView({super.key});
@@ -14,6 +15,10 @@ class InventoryView extends StatefulWidget {
 class _InventoryViewState extends State<InventoryView> {
   late List<String> filters = [];
   late String selectedFilter;
+
+  final tableCol1Width = Responsive.screenWidth / 4;
+  final tableCol2Width = Responsive.screenWidth / 2 - 12;
+  final tableCol3Width = Responsive.screenWidth / 4 - 12;
 
   @override
   void didChangeDependencies() {
@@ -144,7 +149,103 @@ class _InventoryViewState extends State<InventoryView> {
                 ],
               ),
             ),
-            Spacer(),
+            Expanded(
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(
+                      top: 12,
+                      left: 12,
+                      right: 12,
+                    ),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: tableCol1Width,
+                          child: Text("Nr."),
+                        ),
+                        SizedBox(
+                          width: tableCol2Width,
+                          child: Text("Situație"),
+                        ),
+                        SizedBox(
+                          width: tableCol3Width,
+                          child: Text("Acțiuni"),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Separator(),
+                  Expanded(
+                    child: ListView.builder(
+                      padding: .zero,
+                      itemCount: 40,
+                      shrinkWrap: true,
+                      physics: ScrollPhysics(),
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: .symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: index % 2 == 1 ? lightGrey : kBackgroundColor,
+                          ),
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: tableCol1Width,
+                                child: Text("5672"),
+                              ),
+                              SizedBox(
+                                width: tableCol2Width,
+                                child: Text("În inventariere"),
+                              ),
+                              SizedBox(
+                                width: tableCol3Width,
+                                child: Row(
+                                  spacing: 6,
+                                  children: [
+                                    IconButton(
+                                      visualDensity: VisualDensity.compact,
+                                      constraints: BoxConstraints(),
+                                      splashRadius: 1,
+                                      padding: .zero,
+                                      onPressed: () {
+                                        print("delete");
+                                      },
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.trashCan,
+                                        color: kPrimaryColor,
+                                        size: 18,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      visualDensity: VisualDensity.compact,
+                                      constraints: BoxConstraints(),
+                                      splashRadius: 1,
+                                      padding: .zero,
+                                      onPressed: () {
+                                        print("compass");
+                                      },
+                                      icon: FaIcon(
+                                        FontAwesomeIcons.compass,
+                                        color: kPrimaryColor,
+                                        size: 18,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
             Container(
               padding: EdgeInsets.only(
                 bottom: Responsive.safePaddingBottom,
