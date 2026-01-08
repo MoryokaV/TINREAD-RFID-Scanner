@@ -47,6 +47,7 @@ class _BottomNavbarState extends State<BottomNavbar> {
     return Scaffold(
       body: pages[pageIndex],
       appBar: getAppBar(context),
+      resizeToAvoidBottomInset: false,
       bottomNavigationBar: Theme(
         data: Theme.of(context).copyWith(
           splashColor: Colors.transparent,

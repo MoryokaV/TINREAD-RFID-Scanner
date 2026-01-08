@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
+import 'package:tinread_rfid_scanner/providers/connectivity_provider.dart';
 import 'package:tinread_rfid_scanner/utils/responsive.dart';
 import 'package:tinread_rfid_scanner/utils/style.dart';
 import 'package:tinread_rfid_scanner/widgets/separator_widget.dart';
@@ -30,6 +32,8 @@ class _InventoryViewState extends State<InventoryView> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isOnline = context.select<ConnectivityProvider, bool>((c) => c.isOnline);
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -248,7 +252,7 @@ class _InventoryViewState extends State<InventoryView> {
             ),
             Container(
               padding: EdgeInsets.only(
-                bottom: Responsive.safePaddingBottom,
+                bottom: Responsive.safePaddingBottom > 0 ? Responsive.safePaddingBottom : 12,
                 left: 12,
                 right: 12,
                 top: 12,
@@ -262,11 +266,18 @@ class _InventoryViewState extends State<InventoryView> {
                 children: [
                   RichText(
                     text: TextSpan(
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: kSuccessTextColor, height: 1),
+                      style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                        color: isOnline ? kSuccessTextColor : kDangerTextColor,
+                        height: 1,
+                      ),
                       children: [
                         TextSpan(
                           text: " •  ",
-                          style: TextStyle(fontWeight: FontWeight.w700, color: kSuccessIconColor, fontSize: 24),
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            color: isOnline ? kSuccessIconColor : kDangerIconColor,
+                            fontSize: 24,
+                          ),
                         ),
                         TextSpan(
                           text: "Status: ",

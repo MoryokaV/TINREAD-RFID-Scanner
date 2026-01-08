@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
 import 'package:tinread_rfid_scanner/models/user_model.dart';
+import 'package:tinread_rfid_scanner/providers/connectivity_provider.dart';
 import 'package:tinread_rfid_scanner/providers/user_provider.dart';
 import 'package:tinread_rfid_scanner/services/localstorage_service.dart';
 import 'package:tinread_rfid_scanner/utils/navigation_util.dart';
@@ -16,6 +18,10 @@ late final String initialRoute;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+  ]);
+
   Responsive.init();
 
   await LocalStorage.init();
@@ -27,6 +33,7 @@ void main() async {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider(user)),
+        ChangeNotifierProvider(create: (_) => ConnectivityProvider()),
       ],
       child: MyApp(),
     ),

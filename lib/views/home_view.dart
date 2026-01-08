@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:provider/provider.dart';
 import 'package:tinread_rfid_scanner/l10n/generated/app_localizations.dart';
+import 'package:tinread_rfid_scanner/providers/connectivity_provider.dart';
 import 'package:tinread_rfid_scanner/utils/responsive.dart';
 import 'package:tinread_rfid_scanner/utils/router.dart';
 import 'package:tinread_rfid_scanner/utils/style.dart';
@@ -84,47 +86,51 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
             SizedBox(height: Responsive.safeBlockVertical * 3),
-            Container(
-              padding: EdgeInsets.only(
-                left: 20,
-                top: 10,
-                bottom: 10,
-                right: 20,
-              ),
-              decoration: BoxDecoration(
-                color: kSuccessIconColor,
-                borderRadius: .circular(100),
-              ),
-              child: Row(
-                spacing: 12,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    width: 12,
-                    height: 12,
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: .circular(100),
-                    ),
+            Consumer<ConnectivityProvider>(
+              builder: (context, connectivity, _) {
+                return Container(
+                  padding: EdgeInsets.only(
+                    left: 20,
+                    top: 10,
+                    bottom: 10,
+                    right: 20,
                   ),
-                  RichText(
-                    text: TextSpan(
-                      style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white, height: 1),
-                      children: [
-                        TextSpan(
-                          text: "${AppLocalizations.of(context).deviceStatus}: ",
-                        ),
-                        TextSpan(
-                          text: "online",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ],
-                    ),
+                  decoration: BoxDecoration(
+                    color: connectivity.isOnline ? kSuccessIconColor : kDangerIconColor,
+                    borderRadius: .circular(100),
                   ),
-                ],
-              ),
+                  child: Row(
+                    spacing: 12,
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 12,
+                        height: 12,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: .circular(100),
+                        ),
+                      ),
+                      RichText(
+                        text: TextSpan(
+                          style: Theme.of(context).textTheme.labelLarge!.copyWith(color: Colors.white, height: 1),
+                          children: [
+                            TextSpan(
+                              text: "${AppLocalizations.of(context).deviceStatus}: ",
+                            ),
+                            TextSpan(
+                              text: connectivity.isOnline ? "online" : "offline",
+                              style: TextStyle(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             ),
             Spacer(),
             Wrap(
